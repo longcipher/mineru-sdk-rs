@@ -1,0 +1,11 @@
+[package]
+name = "mineru-cli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+clap = { workspace = true, features = ["derive", "env"] }
+eyre = { workspace = true }
+mineru-sdk = { path = "../../crates/mineru-sdk" }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["full"] }

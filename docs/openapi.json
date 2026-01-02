@@ -1,0 +1,368 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MinerU API",
+    "version": "v4",
+    "description": "API for MinerU document extraction service"
+  },
+  "servers": [
+    {
+      "url": "https://mineru.net"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "ExtractTaskRequest": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "File URL"
+          },
+          "is_ocr": {
+            "type": "boolean",
+            "default": false
+          },
+          "enable_formula": {
+            "type": "boolean",
+            "default": true
+          },
+          "enable_table": {
+            "type": "boolean",
+            "default": true
+          },
+          "language": {
+            "type": "string",
+            "default": "ch"
+          },
+          "data_id": {
+            "type": "string"
+          },
+          "callback": {
+            "type": "string"
+          },
+          "seed": {
+            "type": "string"
+          },
+          "extra_formats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "page_ranges": {
+            "type": "string"
+          },
+          "model_version": {
+            "type": "string",
+            "default": "pipeline",
+            "enum": ["pipeline", "vlm"]
+          }
+        }
+      },
+      "ExtractTaskResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer" },
+          "msg": { "type": "string" },
+          "trace_id": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": { "type": "string" }
+            }
+          }
+        }
+      },
+      "TaskResultResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer" },
+          "msg": { "type": "string" },
+          "trace_id": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": { "type": "string" },
+              "data_id": { "type": "string" },
+              "state": { "type": "string" },
+              "full_zip_url": { "type": "string" },
+              "err_msg": { "type": "string" },
+              "extract_progress": {
+                "type": "object",
+                "properties": {
+                  "extracted_pages": { "type": "integer" },
+                  "total_pages": { "type": "integer" },
+                  "start_time": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BatchFileRequest": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name"],
+              "properties": {
+                "name": { "type": "string" },
+                "data_id": { "type": "string" },
+                "is_ocr": { "type": "boolean" },
+                "page_ranges": { "type": "string" }
+              }
+            }
+          },
+          "model_version": { "type": "string" },
+          "enable_formula": { "type": "boolean" },
+          "enable_table": { "type": "boolean" },
+          "language": { "type": "string" },
+          "callback": { "type": "string" },
+          "seed": { "type": "string" },
+          "extra_formats": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "BatchFileResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer" },
+          "msg": { "type": "string" },
+          "trace_id": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "batch_id": { "type": "string" },
+              "files": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "BatchUrlRequest": {
+        "type": "object",
+        "properties": {
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["url"],
+              "properties": {
+                "url": { "type": "string" },
+                "data_id": { "type": "string" },
+                "is_ocr": { "type": "boolean" },
+                "page_ranges": { "type": "string" }
+              }
+            }
+          },
+          "model_version": { "type": "string" },
+          "enable_formula": { "type": "boolean" },
+          "enable_table": { "type": "boolean" },
+          "language": { "type": "string" },
+          "callback": { "type": "string" },
+          "seed": { "type": "string" },
+          "extra_formats": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "BatchUrlResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer" },
+          "msg": { "type": "string" },
+          "trace_id": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "batch_id": { "type": "string" }
+            }
+          }
+        }
+      },
+      "BatchResultResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer" },
+          "msg": { "type": "string" },
+          "trace_id": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "batch_id": { "type": "string" },
+              "extract_result": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "file_name": { "type": "string" },
+                    "state": { "type": "string" },
+                    "full_zip_url": { "type": "string" },
+                    "err_msg": { "type": "string" },
+                    "data_id": { "type": "string" },
+                    "extract_progress": {
+                      "type": "object",
+                      "properties": {
+                        "extracted_pages": { "type": "integer" },
+                        "total_pages": { "type": "integer" },
+                        "start_time": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v4/extract/task": {
+      "post": {
+        "summary": "Create extraction task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtractTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractTaskResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v4/extract/task/{task_id}": {
+      "get": {
+        "summary": "Get task result",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v4/file-urls/batch": {
+      "post": {
+        "summary": "Batch file upload URLs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchFileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchFileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v4/extract/task/batch": {
+      "post": {
+        "summary": "Batch URL upload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUrlRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchUrlResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v4/extract-results/batch/{batch_id}": {
+      "get": {
+        "summary": "Batch get results",
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchResultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
