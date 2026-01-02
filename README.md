@@ -1,3 +1,10 @@
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/longcipher/mineru-sdk-rs)
+[![Context7](https://img.shields.io/badge/Website-context7.com-blue)](https://context7.com/longcipher/mineru-sdk-rs)
+[![crates.io](https://img.shields.io/crates/v/mineru-sdk.svg)](https://crates.io/crates/mineru-sdk)
+[![docs.rs](https://docs.rs/mineru-sdk/badge.svg)](https://docs.rs/mineru-sdk)
+
+![mineru-sdk-rs](https://socialify.git.ci/longcipher/mineru-sdk-rs/image?font=Source+Code+Pro&language=1&name=1&owner=1&pattern=Circuit+Board&theme=Auto)
+
 # MinerU SDK for Rust
 
 A Rust SDK for interacting with the MinerU API, which provides document extraction services for PDFs, DOCX, PPTX, and other formats.
